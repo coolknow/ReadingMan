@@ -2,13 +2,23 @@
 
 
 from flask import Flask, render_template, request, redirect, url_for, session,flash
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
+import pymysql
+# from flask_mysqldb import MySQL
+# import MySQLdb.cursors
 import re
 
 
 
 app = Flask(__name__)
+
+# # 打开数据库连接
+# db = pymysql.connect(host='localhost',
+#                      user='testuser',
+#                      password='test123',
+#                      database='TESTDB')
+#
+# # 使用 cursor() 方法创建一个游标对象 cursor
+# cursor = db.cursor()
 
 # Change this to your secret key (can be anything, it's for extra protection)
 app.secret_key = '1a2b3c4d5e'
@@ -19,8 +29,8 @@ app.config['MYSQL_USER'] = '*****'
 app.config['MYSQL_PASSWORD'] = '*****'
 app.config['MYSQL_DB'] = '****'
 
-# Intialize MySQL
-mysql = MySQL(app)
+# # Intialize MySQL
+# mysql = MySQL(app)
 
 # http://localhost:5000/pythonlogin/ - this will be the login page, we need to use both GET and POST requests
 @app.route('/pythonlogin/', methods=['GET', 'POST'])
@@ -111,4 +121,4 @@ def profile():
     return redirect(url_for('login'))
 
 if __name__ =='__main__':
-	app.run(Debug=True)
+	app.run(debug=True)
