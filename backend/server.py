@@ -1,61 +1,110 @@
+from flask import Flask
+from flask_cors import cross_origin
 import pymysql
-def test():
-    db = pymysql.connect(host='localhost',#打开数据库链接
-                         port=3306,
-                         user='root',
-                         password='123456',
-                         database='test'
-                         )
-    cursor = db.cursor();
-    cursor.execute("SELECT VERSION()")
-    data =cursor.fetchone()
-    print ("Database version :%s"% data)
-    db.close()
 
-def insertUser(userName,phone,email,password,uploadRight,vip):#向用户表中插入数据
-    db = pymysql.connect(host='localhost',
-                     port=3306,
-                     user='root',
-                     password='123456',
-                     database='test'
-                     )
-    cursor = db.cursor();
-    sql="INSERT INTO `test`.`user` (`userName`, `phone`, `email`, `password`, `uploadRight`, `vip`) \
-     VALUES ('%s', '%s', '%s', '%s','%s', '%s');" %\
-        (userName,phone,email,password,uploadRight,vip)
-    try:
-        cursor.execute(sql)
-        db.commit()
-        print("insert successful:)")
-    except:
-        db.rollback()
-        print("insert failed:(")
-    db.close()
+app = Flask(__name__)
 
-def queryUser(userName,password):#查找用户信息表
-    db = pymysql.connect(host='localhost',
-                     port=3306,
-                     user='root',
-                     password='123456',
-                     database='test'
-                     )
-    cursor = db.cursor();
-    sql="SELECT * FROM `test`.`user` \
-       WHERE `userName` = '%s' " % (userName)
-    try:
-        cursor.execute(sql)
-        result = cursor.fetchone()
-        if (result[3])==password:
-            print("Correct password")
-        else:
-            print("Wrong password")
-    except:
-        print ("query failed:)")
-    db.close()
 
-#insertUser("yxp","15801186063","162158662@qq,com","123456","1","1")
-queryUser("yxp","123456")
-queryUser("yxp","666666")
+@qpp.route('login', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def login():
+    # TODO、审核用户名和密码是否符合要求，返回判断结果，并将用户信息存储在前端
+    return {}
+
+
+@qpp.route('register', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def register():
+    # TODO 审核用户信息，并返回注册结果，如果不成功则提示重来，如果成功则跳转主页
+    return {}
+
+
+@qpp.route('resource', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def resource():
+    # TODO 判断用户请求资源的种类，并返回相应的资源数据
+    return {}
+
+
+@qpp.route('upload', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def upload():
+    # TODO 接受资源数据，并存储在数据库中
+    return {}
+
+
+@qpp.route('download', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def download():
+    # TODO 获取资源数据请求，并从数据库中调取相应的数据资源返回给前端
+    return {}
+
+
+
+
+
+
+if __name__ = "__main__":
+    app.run(debug=True)
+
+
+# def test():
+#     db = pymysql.connect(host='localhost',#打开数据库链接
+#                          port=3306,
+#                          user='root',
+#                          password='123456',
+#                          database='test'
+#                          )
+#     cursor = db.cursor();
+#     cursor.execute("SELECT VERSION()")
+#     data =cursor.fetchone()
+#     print ("Database version :%s"% data)
+#     db.close()
+#
+# def insertUser(userName,phone,email,password,uploadRight,vip):#向用户表中插入数据
+#     db = pymysql.connect(host='localhost',
+#                      port=3306,
+#                      user='root',
+#                      password='123456',
+#                      database='test'
+#                      )
+#     cursor = db.cursor();
+#     sql="INSERT INTO `test`.`user` (`userName`, `phone`, `email`, `password`, `uploadRight`, `vip`) \
+#      VALUES ('%s', '%s', '%s', '%s','%s', '%s');" %\
+#         (userName,phone,email,password,uploadRight,vip)
+#     try:
+#         cursor.execute(sql)
+#         db.commit()
+#         print("insert successful:)")
+#     except:
+#         db.rollback()
+#         print("insert failed:(")
+#     db.close()
+#
+# def queryUser(userName,password):#查找用户信息表
+#     db = pymysql.connect(host='localhost',
+#                      port=3306,
+#                      user='root',
+#                      password='123456',
+#                      database='test'
+#                      )
+#     cursor = db.cursor();
+#     sql="SELECT * FROM `test`.`user` \
+#        WHERE `userName` = '%s' " % (userName)
+#     try:
+#         cursor.execute(sql)
+#         result = cursor.fetchone()
+#         if (result[3])==password:
+#             print("Correct password")
+#         else:
+#             print("Wrong password")
+#     except:
+#         print ("query failed:)")
+#     db.close()
+#
+# #insertUser("yxp","15801186063","162158662@qq,com","123456","1","1")
+# queryUser("yxp","123456")
+# queryUser("yxp","666666")
 
 #
 #
