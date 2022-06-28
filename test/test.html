@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>test</title>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#btn").click(function(){
+    alert('click')
+    $.ajax({
+      url:"http://127.0.0.1:5000/test/", // 请求地址
+      method:"POST",
+      data:{a:"test"},
+      dataType:"json",
+      success:function(obj){
+        alert(obj.a);
+      },
+      error:function(e){
+        alert(e);
+      }
+    });
+  });
+});
+</script>
+</head>
+<body>
+    <button id="btn">获取外部内容</button>
+</body>
+</html>

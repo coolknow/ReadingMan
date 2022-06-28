@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import cross_origin
+from flask import jsonify
 import pymysql
 
 app = Flask(__name__)
