@@ -54,7 +54,18 @@ def vip():
     return {}
 
 
+@qpp.route('like', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def like():
+    # TODO 根据 书名 和 点赞/取消点赞 修改数据库点赞表
+    return {}
 
+
+@qpp.route('comment', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def comment():
+    # TODO 往评论表里增加数据
+    return {}
 
 
 
