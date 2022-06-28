@@ -40,6 +40,20 @@ def download():
     return {}
 
 
+@qpp.route('right', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def right():
+    # TODO 在用户申请上传资格的时候检查是否符合条件（互动指数+vip）
+    return {}
+
+
+@qpp.route('vip', methods=['GET', 'POST'])
+@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+def vip():
+    # TODO 模拟充值vip，修改数据库，并返回结果到前端
+    return {}
+
+
 
 
 
