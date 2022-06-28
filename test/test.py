@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import cross_origin
 from flask import jsonify
 
@@ -10,6 +10,9 @@ app = Flask(__name__)
 @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def test():
     print("receive")
+    json = request.json
+    print('recv',json)
+    print('recv',json['name'])
     return jsonify({'a':'aprime','b':'bprime'})
 
 

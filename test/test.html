@@ -7,11 +7,16 @@
 <script>
 $(document).ready(function(){
   $("#btn").click(function(){
-    alert('click')
+    alert('click');
+    var input = {
+      'name': 'tom',
+      'password': '123456'
+    };
     $.ajax({
       url:"http://127.0.0.1:5000/test/", // 请求地址
       method:"POST",
-      data:{a:"test"},
+      data:JSON.stringify(input),
+      contentType: 'application/json',
       dataType:"json",
       success:function(obj){
         alert(obj.a);
