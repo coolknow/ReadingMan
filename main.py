@@ -9,7 +9,7 @@ import re
 
 
 
-app = Flask(__name__,template_folder='../views')
+app = Flask(__name__,template_folder='templates',)
 
 # # 打开数据库连接
 # db = pymysql.connect(host='localhost',
@@ -31,9 +31,9 @@ app.config['MYSQL_DB'] = '****'
 
 # # Intialize MySQL
 # mysql = MySQL(app)
-@app.route('/',methods=['GET','POST'])
+@app.route('/index/',methods=['GET','POST'])
 def index():
-    return render_template('views/bootstrap-4-login-page/index.html',title="Index")
+    return render_template('bootstrap-4-login-page/index.html',title="Index")
 
 # http://localhost:5000/pythonlogin/ - this will be the login page, we need to use both GET and POST requests
 @app.route('/pythonlogin/', methods=['GET', 'POST'])
