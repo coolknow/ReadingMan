@@ -1,0 +1,86 @@
+.box {
+  width: 100%;
+  height: 100%;
+  min-height: 800px;
+}
+
+.listBox {
+  width: 800px;
+  margin: auto;
+  background: #FFF;
+  padding: 20px;
+  margin-top: 20px;
+  .listItem {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    .listItemTop {
+      display: flex;
+      align-items: center;
+
+      .listItemTopHeadpic {
+        width: 30px;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+
+      .listItemTopName {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .listItemTopTime{
+        color: #888;
+        font-size: 12px;
+        margin-left: 15px;
+      }
+
+      margin-bottom: 15px;
+    }
+
+    .listItemDesc {
+      font-size: 14px;
+      line-height: 28px;
+    }
+
+    .listItemImgBox {
+      font-size: 0;
+      margin-top: 10px;
+      img {
+        width: 20%;
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+.pulishBtn{
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  right: 50px;
+  bottom: 100px;
+  background-image: linear-gradient(#646de6, rgb(0, 81, 255));
+  z-index: 1000;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  span{
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  &:active{
+    opacity: 0.9;
+  }
+}
+
+.uploadBox{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

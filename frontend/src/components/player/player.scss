@@ -1,0 +1,73 @@
+.playerBox {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  // height: 50px;
+  z-index: 10000;
+  background: #fff;
+  border-top: 1px solid rgb(201, 186, 186);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.icon {
+  cursor: pointer;
+  margin-left: 30px;
+  font-size: 20px;
+}
+
+.coverBox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.coverBox:hover .songName{
+    color: #1890ff;
+    text-decoration: underline;
+}
+
+.songName {
+  font-size: 14px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.menuBox {
+  position: relative;
+}
+
+.menuCard {
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  width: 300px;
+}
+
+.songItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.5s;
+
+  &:hover {
+    color: #1890ff;
+  }
+}
+
+.songItem:last-child {
+  margin-bottom: 0;
+}
+
+.songItemActive {
+  color: #1890ff;
+  font-weight: bold;
+}

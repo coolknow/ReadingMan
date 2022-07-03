@@ -1,0 +1,40 @@
+.box{
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+}
+.boxLeft{
+  width: 400px;
+  height: calc(100vh - 100px);
+  background: #FFF;
+  margin-right: 30px;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.boxRight{
+  flex: 1;
+  padding: 20px 0;
+}
+.uploadBox{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.tabItem{
+  font-size: 20px;
+  padding: 10px 0px;
+  border-radius: 8px;
+  width: 200px;
+  text-align: center;
+  margin-top: 25px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.tabItemAvtive{
+  background: #1890ff;
+  color: white;
+}
