@@ -195,7 +195,6 @@ export default {
             })
               .then((res) => {
                 this.loading = false;
-                alert(res.data);
                 this.$store.commit("login", res.data);
                 this.$router.push("/");
               })

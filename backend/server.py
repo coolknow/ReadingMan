@@ -1,76 +1,98 @@
-from flask import Flask
+from flask import Flask, request, make_response
 from flask_cors import cross_origin
 from flask import jsonify
 import pymysql
 
 app = Flask(__name__)
 
+db = pymysql.connect(
+    host='localhost',#打开数据库链接
+    port=3306,
+    user='root',
+    password='Hu6012493!',
+    database='test'
+)
 
-@qpp.route('login', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+cursor = db.cursor();
+cursor.execute("SELECT VERSION()")
+data = cursor.fetchone()
+print ("Database version :%s"% data)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def login():
     # TODO、审核用户名和密码是否符合要求，返回判断结果，并将用户信息存储在前端
+    print("receive")
+    data = request.form.get('')
+    print(data)
+    response = make_response(jsonify({'a':'aprime','b':'bprime'}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://127.0.0.1:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    return response
     return {}
 
 
-@qpp.route('register', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/register', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def register():
     # TODO 审核用户信息，并返回注册结果，如果不成功则提示重来，如果成功则跳转主页
     return {}
 
 
-@qpp.route('resource', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/resource', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def resource():
     # TODO 判断用户请求资源的种类，并返回相应的资源数据
     return {}
 
 
-@qpp.route('upload', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/upload', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def upload():
     # TODO 接受资源数据，并存储在数据库中
     return {}
 
 
-@qpp.route('download', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/download', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def download():
     # TODO 获取资源数据请求，并从数据库中调取相应的数据资源返回给前端
     return {}
 
 
-@qpp.route('right', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/right', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def right():
     # TODO 在用户申请上传资格的时候检查是否符合条件（互动指数+vip）
     return {}
 
 
-@qpp.route('vip', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/vip', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def vip():
     # TODO 模拟充值vip，修改数据库，并返回结果到前端
     return {}
 
 
-@qpp.route('like', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/like', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def like():
     # TODO 根据 书名 和 点赞/取消点赞 修改数据库点赞表
     return {}
 
 
-@qpp.route('comment', methods=['GET', 'POST'])
-@cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
+@app.route('/comment', methods=['GET', 'POST'])
+# @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def comment():
     # TODO 往评论表里增加数据
     return {}
 
 
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     app.run(debug=True)
 
 

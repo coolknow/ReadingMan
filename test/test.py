@@ -1,13 +1,25 @@
 from flask import Flask, request, make_response
 from flask_cors import cross_origin
 from flask import jsonify
+import pymysql
 
 
 app = Flask(__name__)
 
+db = pymysql.connect(
+    host='localhost',#打开数据库链接
+    port=3306,
+    user='root',
+    password='Hu6012493!',
+    database='test'
+)
+
+cursor = db.cursor();
+cursor.execute("SELECT VERSION()")
+data = cursor.fetchone()
+print ("Database version :%s"% data)
 
 @app.route('/test/',methods=['POST','GET'])
-# @cross_origin(origins="http://127.0.0.1:9528") # 设置可以访问的前端端口
 def test():
     print("receive")
     data = request.form.get('')

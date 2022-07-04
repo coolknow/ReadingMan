@@ -5,7 +5,7 @@ import qs from 'qs'
 export function login(data) {
   return request({
     // url: '/users/login',
-    url: 'http://127.0.0.1:5000/test/',
+    url: 'http://127.0.0.1:5000/login',
     method: 'POST',
     data: qs.stringify(data)
   })
