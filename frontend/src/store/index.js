@@ -16,7 +16,7 @@ const store = new Vuex.Store({
 		// 	url: '',
 		// 	name: '',
 		// }
-		
+
 	},
 	mutations: {
 		// 删除播放列表
@@ -32,7 +32,7 @@ const store = new Vuex.Store({
 				}
 			}
 			state.playList = list;
-		
+
 			window.localStorage.setItem("playList", JSON.stringify(list))
 		},
 		// 新增播放列表
@@ -62,7 +62,7 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
-	
+
 	}
 })
 

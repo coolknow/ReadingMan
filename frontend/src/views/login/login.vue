@@ -194,8 +194,9 @@ export default {
               pwd,
             })
               .then((res) => {
+                console.log(res);
                 this.loading = false;
-                this.$store.commit("login", res.data);
+                this.$store.commit("login", res);
                 this.$router.push("/");
               })
               .catch(() => {
