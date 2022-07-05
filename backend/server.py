@@ -106,6 +106,12 @@ def like():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def comment():
     # TODO 往评论表里增加数据
+    commentId = request.form.get(' ')
+    userName = request.form.get(' ')
+    content = request.form.get(' ')
+    answer=insertComment(commentId,userName,content)#成功为真，失败为假
+
+
     return {}
 
 
@@ -113,7 +119,7 @@ def comment():
 if __name__ == "__main__":
     app.run(debug=True)
 
-def insertComment(commentId,userName,content):#向用户表中插入数据
+def insertComment(commentId,userName,content):#向评论表中插入数据
     cursor = db.cursor();
     sql="INSERT INTO `test`.`comment` (`commentId`, `userName`, `content`) \
      VALUES ('%s', '%s', '%s');" %\
