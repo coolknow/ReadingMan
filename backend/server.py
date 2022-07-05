@@ -17,19 +17,20 @@ db = pymysql.connect(
 @app.route('/login', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def login():
+    print('receive')
     # TODO、审核用户名和密码是否符合要求，返回判断结果，并将用户信息存储在前端
-    cursor = db.cursor();
-    cursor.execute("SELECT VERSION()")
-    data = cursor.fetchone()
-    print ("Database version :%s"% data)
-
-    print("receive")
     username = request.form.get('username')
     password = request.form.get('pwd')
     print("username: " + str(username))
     print("password: " + str(password))
+
+    cursor = db.cursor();
+    sql = "SELECT * FROM test.user WHERE userName = '%s';" % (username)
+    cursor.execute(sql)
+    data = cursor.fetchone()
+    print(data[0])
     response = make_response(jsonify({'pass':True,'username':username,'password':password}))
-    response.headers["Access-Control-Allow-Origin"] = 'http://127.0.0.1:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
     response.headers["Access-Control-Allow-Credentials"] = 'true'
