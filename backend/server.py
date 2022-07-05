@@ -28,6 +28,12 @@ def login():
     sql = "SELECT * FROM test.user WHERE userName = '%s';" % (username)
     cursor.execute(sql)
     data = cursor.fetchone()
+    # data[0] : userName
+    # data[1] : phone
+    # data[2] : email
+    # data[3] : password
+    # data[4] : uploadRight
+    # data[5] : vip
     print(data[0])
     response = make_response(jsonify({'pass':True,'username':username,'password':password}))
     response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
