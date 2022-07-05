@@ -1,6 +1,7 @@
 from flask import Flask, request, make_response
 from flask_cors import cross_origin
 from flask import jsonify
+from dbrelated import *
 import pymysql
 
 app = Flask(__name__)
@@ -23,33 +24,18 @@ def login():
     password = request.form.get('pwd')
     print("username: " + str(username))
     print("password: " + str(password))
-
-    cursor = db.cursor();
-    sql = "SELECT * FROM test.user WHERE userName = '%s';" % (username)
-    cursor.execute(sql)
-    data = cursor.fetchone()
-    # data[0] : userName
-    # data[1] : phone
-    # data[2] : email
-    # data[3] : password
-    # data[4] : uploadRight
-    # data[5] : vip
-    if password == data[3]:
-        response = make_response(jsonify({'pass':True,'username':username}))
-        response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
-        response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
-        response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
-        response.headers["Access-Control-Allow-Credentials"] = 'true'
-        print('---- ----- ----')
-        return response
-    else:
-        response = make_response(jsonify({'pass':False,'username':username}))
-        response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
-        response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
-        response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
-        response.headers["Access-Control-Allow-Credentials"] = 'true'
-        print('---- ----- ----')
-        return response
+    result = queryUser(username,password,db)
+    # cursor = db.cursor();
+    # sql = "SELECT * FROM test.user WHERE userName = '%s';" % (username)
+    # cursor.execute(sql)
+    # data = cursor.fetchone()
+    response = make_response(jsonify({'pass':result,'username':username}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    print('---- ----- ----')
+    return response
 
 
 
@@ -70,6 +56,7 @@ def register():
     # 验证 用户名 / 邮箱 是否都已经注册过
 
     # 注册新的用户
+
     return {}
 
 
@@ -127,60 +114,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-# def test():
-#     db = pymysql.connect(host='localhost',#打开数据库链接
-#                          port=3306,
-#                          user='root',
-#                          password='123456',
-#                          database='test'
-#                          )
-#     cursor = db.cursor();
-#     cursor.execute("SELECT VERSION()")
-#     data =cursor.fetchone()
-#     print ("Database version :%s"% data)
-#     db.close()
-#
-# def insertUser(userName,phone,email,password,uploadRight,vip):#向用户表中插入数据
-#     db = pymysql.connect(host='localhost',
-#                      port=3306,
-#                      user='root',
-#                      password='123456',
-#                      database='test'
-#                      )
-#     cursor = db.cursor();
-#     sql="INSERT INTO `test`.`user` (`userName`, `phone`, `email`, `password`, `uploadRight`, `vip`) \
-#      VALUES ('%s', '%s', '%s', '%s','%s', '%s');" %\
-#         (userName,phone,email,password,uploadRight,vip)
-#     try:
-#         cursor.execute(sql)
-#         db.commit()
-#         print("insert successful:)")
-#     except:
-#         db.rollback()
-#         print("insert failed:(")
-#     db.close()
-#
-# def queryUser(userName,password):#查找用户信息表
-#     db = pymysql.connect(host='localhost',
-#                      port=3306,
-#                      user='root',
-#                      password='123456',
-#                      database='test'
-#                      )
-#     cursor = db.cursor();
-#     sql="SELECT * FROM `test`.`user` \
-#        WHERE `userName` = '%s' " % (userName)
-#     try:
-#         cursor.execute(sql)
-#         result = cursor.fetchone()
-#         if (result[3])==password:
-#             print("Correct password")
-#         else:
-#             print("Wrong password")
-#     except:
-#         print ("query failed:)")
-#     db.close()
-#
+
 # #insertUser("yxp","15801186063","162158662@qq,com","123456","1","1")
 # queryUser("yxp","123456")
 # queryUser("yxp","666666")
