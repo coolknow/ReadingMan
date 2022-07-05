@@ -56,7 +56,20 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def register():
+    print('---- Register ----')
     # TODO 审核用户信息，并返回注册结果，如果不成功则提示重来，如果成功则跳转主页
+    username = request.form.get('username')
+    password = request.form.get('pwd')
+    phone = request.form.get('phone')
+    email = request.form.get('email')
+    print("username: " + str(username))
+    print("password: " + str(password))
+    print("phone: " + str(phone))
+    print("email: " + str(email))
+
+    # 验证 用户名 / 邮箱 是否都已经注册过
+
+    # 注册新的用户
     return {}
 
 
