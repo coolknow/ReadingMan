@@ -46,18 +46,26 @@ def register():
     # TODO 审核用户信息，并返回注册结果，如果不成功则提示重来，如果成功则跳转主页
     username = request.form.get('username')
     password = request.form.get('pwd')
-    phone = request.form.get('phone')
-    email = request.form.get('email')
+    # phone = request.form.get('phone')
+    # email = request.form.get('email')
     print("username: " + str(username))
     print("password: " + str(password))
-    print("phone: " + str(phone))
-    print("email: " + str(email))
-
+    # print("phone: " + str(phone))
+    # print("email: " + str(email))
+    email = 'thisman@test.com'
+    phone = '19216825525'
+    uploadRight = 0
+    vip = 0
     # 验证 用户名 / 邮箱 是否都已经注册过
-    result = insertUser(userName,phone,email,password,uploadRight,vip,db)
     # 注册新的用户
-
-    return {}
+    result = insertUser(userName,phone,email,password,uploadRight,vip,db)
+    response = make_response(jsonify({'pass':result,'username':username}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    print('---- ----- ----')
+    return response
 
 
 @app.route('/resource', methods=['GET', 'POST'])
