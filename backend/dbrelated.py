@@ -74,3 +74,26 @@ def insertDownload(userName,id,date):#向下载表中插入数据，日期为"20
         print("insert failed:(")
         return(False)
     db.close()
+
+def insertListen(userName,id,date):#向听书表中插入数据
+    cursor = db.cursor();
+    try:
+        sql="SELECT * FROM `test`.`listen` WHERE `userName` = '%s' AND `id` = '%s' AND `date` = '%s';"\
+            % (userName,id,date)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if result==None:
+            sql="INSERT INTO `test`.`listen` (`userName`, `id`, `date`)\
+                VALUES ('%s', '%s', '%s');" %\
+                (userName,id,date)
+            cursor.execute(sql)
+            db.commit()
+            print("insert listen")
+        else:
+            print("no change required")
+        return(True)
+    except:
+        db.rollback()
+        print("insert failed:(")
+        return(False)
+    db.close()
