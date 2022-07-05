@@ -34,13 +34,21 @@ def login():
     # data[3] : password
     # data[4] : uploadRight
     # data[5] : vip
-    print(data[0])
-    response = make_response(jsonify({'pass':True,'username':username,'password':password}))
-    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
-    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
-    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
-    response.headers["Access-Control-Allow-Credentials"] = 'true'
-    return response
+    if password == data[3]:
+        response = make_response(jsonify({'pass':True,'username':username}))
+        response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+        response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+        response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+        response.headers["Access-Control-Allow-Credentials"] = 'true'
+        return response
+    else:
+        response = make_response(jsonify({'pass':False,'username':username}))
+        response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+        response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+        response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+        response.headers["Access-Control-Allow-Credentials"] = 'true'
+        return response
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
