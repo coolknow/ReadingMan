@@ -117,7 +117,7 @@ def comment():
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
     response.headers["Access-Control-Allow-Credentials"] = 'true'
     print('---- ----- ----')
-    return {}
+    return response
 
 
 
