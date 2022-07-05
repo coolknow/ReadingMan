@@ -105,13 +105,18 @@ def like():
 @app.route('/comment', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def comment():
+    print('---- Comment ----')
     # TODO 往评论表里增加数据
     commentId = request.form.get(' ')
     userName = request.form.get(' ')
     content = request.form.get(' ')
     answer = insertComment(commentId,userName,content)#成功为真，失败为假
-
-
+    response = make_response(jsonify({'token':True}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    print('---- ----- ----')
     return {}
 
 
