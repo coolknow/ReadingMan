@@ -109,7 +109,7 @@ def comment():
     commentId = request.form.get(' ')
     userName = request.form.get(' ')
     content = request.form.get(' ')
-    answer=insertComment(commentId,userName,content)#成功为真，失败为假
+    answer = insertComment(commentId,userName,content)#成功为真，失败为假
 
 
     return {}
@@ -118,21 +118,6 @@ def comment():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-def insertComment(commentId,userName,content):#向评论表中插入数据
-    cursor = db.cursor();
-    sql="INSERT INTO `test`.`comment` (`commentId`, `userName`, `content`) \
-     VALUES ('%s', '%s', '%s');" %\
-        (commentId,userName,content)
-    try:
-        cursor.execute(sql)
-        db.commit()
-        print("insert successful:)")
-        return(True)
-    except:
-        db.rollback()
-        print("insert failed:(")
-        return(False)
 
 # #insertUser("yxp","15801186063","162158662@qq,com","123456","1","1")
 # queryUser("yxp","123456")
