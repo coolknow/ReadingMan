@@ -54,7 +54,7 @@ def register():
     print("email: " + str(email))
 
     # 验证 用户名 / 邮箱 是否都已经注册过
-
+    result = insertUser(userName,phone,email,password,uploadRight,vip,db)
     # 注册新的用户
 
     return {}
@@ -110,8 +110,8 @@ def comment():
     commentId = request.form.get(' ')
     userName = request.form.get(' ')
     content = request.form.get(' ')
-    answer = insertComment(commentId,userName,content)#成功为真，失败为假
-    response = make_response(jsonify({'token':True}))
+    result = insertComment(commentId,userName,content)#成功为真，失败为假
+    response = make_response(jsonify({'token':result}))
     response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header

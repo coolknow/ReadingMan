@@ -39,8 +39,8 @@ def insertComment(commentId,userName,content,db):#向评论表中插入数据
         cursor.execute(sql)
         db.commit()
         print("insert successful:)")
-        return(True)
+        return True
     except:
         db.rollback()
         print("insert failed:(")
-        return(False)
+        return False
