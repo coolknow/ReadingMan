@@ -195,9 +195,16 @@ export default {
             })
               .then((res) => {
                 console.log(res);
-                this.loading = false;
-                this.$store.commit("login", res);
-                this.$router.push("/");
+                if(res.pass){
+                  this.loading = false;
+                  this.$store.commit("login", res);
+                  this.$router.push("/");
+                }
+                else{
+                  alert("用户名或密码错误\n请重新输入");
+                  this.loading = false;
+                  this.$router.push("/");
+                }
               })
               .catch(() => {
                 this.loading = false;
