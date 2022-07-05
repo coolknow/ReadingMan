@@ -132,3 +132,17 @@ def insertResource(id,label,title,name,summary,type):#向资源表中插入数�
         db.rollback()
         print("insert failed:(")
         return(False)
+
+def insertUp(userName,id,upValue):#向up表中插入数据
+    cursor = db.cursor();
+    sql="INSERT INTO `test`.`up` (`userName`, `id`, `upValue`) VALUES ('%s', '%s', '%s');" %\
+        (userName,id,upValue)
+    try:
+        cursor.execute(sql)
+        db.commit()
+        print("insert successful:)")
+        return(True)
+    except:
+        db.rollback()
+        print("insert failed:(")
+        return(False)
