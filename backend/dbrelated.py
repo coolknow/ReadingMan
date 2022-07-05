@@ -44,3 +44,33 @@ def insertComment(commentId,userName,content,db):#向评论表中插入数据
         db.rollback()
         print("insert failed:(")
         return False
+
+def insertDownload(userName,id,date):#向下载表中插入数据，日期为"2022-07-05"类似格式
+    cursor = db.cursor();
+   
+    try:
+        sql="SELECT * FROM `test`.`download` WHERE `userName` = '%s' AND `id` = '%s' AND `date` = '%s';"\
+            % (userName,id,date)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if result==None:
+            sql="INSERT INTO `test`.`download` (`userName`, `id`, `date`, `times`) \
+                VALUES ('%s', '%s', '%s', '%s');" %\
+                (userName,id,date,'1')
+            cursor.execute(sql)
+            db.commit()
+            print("insert download")
+        else:
+            times=result[3]+1
+            sql="UPDATE `test`.`download` SET `times` = '%s' \
+                WHERE (`userName` = '%s') and (`id` = '%s') and (`date` = '%s');"\
+                % (times,userName,id,date)
+            cursor.execute(sql)
+            db.commit()
+            print("add times")
+        return(True)
+    except:
+        db.rollback()
+        print("insert failed:(")
+        return(False)
+    db.close()
