@@ -68,11 +68,11 @@ def insertDownload(userName,id,date):#向下载表中插入数据，日期为"20
             cursor.execute(sql)
             db.commit()
             print("add times")
-        return(True)
+        return True
     except:
         db.rollback()
         print("insert failed:(")
-        return(False)
+        return False 
 
 def insertListen(userName,id,date):#向听书表中插入数据
     cursor = db.cursor();
@@ -90,11 +90,11 @@ def insertListen(userName,id,date):#向听书表中插入数据
             print("insert listen")
         else:
             print("no change required")
-        return(True)
+        return True 
     except:
         db.rollback()
         print("insert failed:(")
-        return(False)
+        return False 
 
 def insertUpload(userName,id,date):#向上传表中插入数据
     cursor = db.cursor();
@@ -112,11 +112,11 @@ def insertUpload(userName,id,date):#向上传表中插入数据
             print("insert upload")
         else:
             print("no change required")
-        return(True)
+        return True 
     except:
         db.rollback()
         print("insert failed:(")
-        return(False)
+        return False 
 
 def insertResource(id,label,title,name,summary,type):#向资源表中插入数据
     cursor = db.cursor();
@@ -127,11 +127,11 @@ def insertResource(id,label,title,name,summary,type):#向资源表中插入数�
         cursor.execute(sql)
         db.commit()
         print("insert successful:)")
-        return(True)
+        return True 
     except:
         db.rollback()
         print("insert failed:(")
-        return(False)
+        return False 
 
 def insertUp(userName,id,upValue):#向up表中插入数据
     cursor = db.cursor();
@@ -141,8 +141,25 @@ def insertUp(userName,id,upValue):#向up表中插入数据
         cursor.execute(sql)
         db.commit()
         print("insert successful:)")
-        return(True)
+        return True 
     except:
         db.rollback()
         print("insert failed:(")
-        return(False)
+        return False 
+
+def queryUp(userName,id):#查找Up表
+    cursor = db.cursor();
+    sql="SELECT * FROM `test`.`up` \
+       WHERE `userName` = '%s' AND `id` = '%s';"% (userName,id)
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if (result[2])==1:
+            print("upValue is True")
+            return True
+        else:
+            print("upValue is False")
+            return False
+    except:
+        print ("query failed:)")
+        return False
