@@ -1,4 +1,4 @@
-def insertUser(userName,phone,email,password,uploadRight,vip):#向用户表中插入数据
+def insertUser(userName,phone,email,password,uploadRight,vip,db):#向用户表中插入数据
     cursor = db.cursor();
    
     try:
@@ -58,7 +58,7 @@ def insertComment(commentId,userName,content,db):#向评论表中插入数据
         print("insert failed:(")
         return False
 
-def insertDownload(userName,id,date):#向下载表中插入数据，日期为"2022-07-05"类似格式
+def insertDownload(userName,id,date,db):#向下载表中插入数据，日期为"2022-07-05"类似格式
     cursor = db.cursor();
    
     try:
@@ -87,7 +87,7 @@ def insertDownload(userName,id,date):#向下载表中插入数据，日期为"20
         print("insert failed:(")
         return False 
 
-def insertListen(userName,id,date):#向听书表中插入数据
+def insertListen(userName,id,date,db):#向听书表中插入数据
     cursor = db.cursor();
     try:
         sql="SELECT * FROM `test`.`listen` WHERE `userName` = '%s' AND `id` = '%s' AND `date` = '%s';"\
@@ -109,7 +109,7 @@ def insertListen(userName,id,date):#向听书表中插入数据
         print("insert failed:(")
         return False 
 
-def insertUpload(userName,id,date):#向上传表中插入数据
+def insertUpload(userName,id,date,db):#向上传表中插入数据
     cursor = db.cursor();
     try:
         sql="SELECT * FROM `test`.`upload` WHERE `userName` = '%s' AND `id` = '%s' AND `date` = '%s';"\
@@ -131,7 +131,7 @@ def insertUpload(userName,id,date):#向上传表中插入数据
         print("insert failed:(")
         return False 
 
-def insertResource(id,label,title,name,summary,type):#向资源表中插入数据
+def insertResource(id,label,title,name,summary,type,db):#向资源表中插入数据
     cursor = db.cursor();
     sql="INSERT INTO `test`.`resource` (`id`, `label`, `title`, `name`, `summary`, `type`) \
             VALUES ('%s', '%s', '%s', '%s', '%s', '%s'); "%\
@@ -146,7 +146,7 @@ def insertResource(id,label,title,name,summary,type):#向资源表中插入数�
         print("insert failed:(")
         return False 
 
-def insertUp(userName,id,upValue):#向up表中插入数据，包含更新
+def insertUp(userName,id,upValue,db):#向up表中插入数据，包含更新
     cursor = db.cursor();
    
     try:
@@ -174,7 +174,7 @@ def insertUp(userName,id,upValue):#向up表中插入数据，包含更新
         print("insert failed:(")
         return False 
 
-def queryUp(userName,id):#查找Up表
+def queryUp(userName,id,db):#查找Up表
     cursor = db.cursor();
     sql="SELECT * FROM `test`.`up` \
        WHERE `userName` = '%s' AND `id` = '%s';"% (userName,id)
