@@ -72,6 +72,9 @@ def register():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def resource():
     # TODO 判断用户请求资源的种类，并返回相应的资源数据
+    #id=
+    result=queryResource(id,db)#0id,1label,2title,3name,4summary,5type
+
     return {}
 
 
@@ -83,6 +86,7 @@ def upload():
     #id=
     #date=
     insertUpload(username,id,date,db)
+    
     return {}
 
 
@@ -94,6 +98,7 @@ def download():
     #id=
     #date=
     insertDownload(username,id,date,db)#会自动加下载数
+    result=queryResource(id,db)#0id,1label,2title,3name,4summary,5type
     return {}
 
 
@@ -101,6 +106,8 @@ def download():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def right():
     # TODO 在用户申请上传资格的时候检查是否符合条件（互动指数+vip）
+    #username=
+    result=queryRight(username,db)#0上传资格1vip
     return {}
 
 
@@ -122,10 +129,10 @@ def vip():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def like():
     # TODO 根据 书名 和 点赞/取消点赞 修改数据库点赞表
-    username=request.form.get('username')
-    id=request.form.get('id')
-    upValue=request.form.get('upvalue')
-    insertUp(username,id,upValue)
+    #username=request.form.get('username')
+    #id=request.form.get('id')
+    #upValue=request.form.get('upvalue')
+    insertUp(username,id,upValue)#会自动更新
     return {}
 
 

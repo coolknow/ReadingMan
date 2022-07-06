@@ -190,3 +190,27 @@ def queryUp(userName,id,db):#查找Up表
     except:
         print ("query failed:)")
         return False
+
+def queryResource(id,db):#查找资源信息表，成功返回全部资源信息，失败返回False
+    cursor = db.cursor();
+    sql="SELECT * FROM `test`.`resource` \
+       WHERE `id` = '%s';" % (id)
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result
+    except:
+        print ("query failed:)")
+        return False
+
+def queryRight(userName,db):#返回用户的上传和vip权限（先上传再vip）
+    cursor = db.cursor();
+    sql="SELECT * FROM `test`.`user` \
+       WHERE `userName` = '%s' " % (userName)
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return (result[4],result[5])
+    except:
+        print ("query failed:)")
+        return False
