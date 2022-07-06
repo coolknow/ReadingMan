@@ -58,7 +58,7 @@ def register():
     vip = 0
     # 验证 用户名 / 邮箱 是否都已经注册过
     # 注册新的用户
-    result = insertUser(userName,phone,email,password,uploadRight,vip,db)
+    result = insertUser(username,phone,email,password,uploadRight,vip,db)
     response = make_response(jsonify({'pass':result,'username':username}))
     response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
@@ -79,6 +79,10 @@ def resource():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def upload():
     # TODO 接受资源数据，并存储在数据库中
+    #username=
+    #id=
+    #date=
+    insertUpload(username,id,date,db)
     return {}
 
 
@@ -86,6 +90,10 @@ def upload():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def download():
     # TODO 获取资源数据请求，并从数据库中调取相应的数据资源返回给前端
+    #username=
+    #id=
+    #date=
+    insertDownload(username,id,date,db)#会自动加下载数
     return {}
 
 
@@ -100,6 +108,13 @@ def right():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def vip():
     # TODO 模拟充值vip，修改数据库，并返回结果到前端
+    #username=
+    #phone=
+    #password=
+    #uploadRight=
+    vip='1'
+    insertUser(username,phone,email,password,uploadRight,vip,db)#已存在用户会更新
+
     return {}
 
 
@@ -107,10 +122,10 @@ def vip():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def like():
     # TODO 根据 书名 和 点赞/取消点赞 修改数据库点赞表
-    userName=request.form.get('username')
+    username=request.form.get('username')
     id=request.form.get('id')
     upValue=request.form.get('upvalue')
-    insertUp(userName,id,upValue)
+    insertUp(username,id,upValue)
     return {}
 
 
@@ -120,9 +135,9 @@ def comment():
     print('---- Comment ----')
     # TODO 往评论表里增加数据
     #commentId = 
-    userName = request.form.get(' ')
+    username = request.form.get(' ')
     content = request.form.get(' ')
-    result = insertComment(commentId,userName,content)#成功为真，失败为假
+    result = insertComment(commentId,username,content)#成功为真，失败为假
     response = make_response(jsonify({'token':result}))
     response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
