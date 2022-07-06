@@ -107,6 +107,10 @@ def vip():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def like():
     # TODO 根据 书名 和 点赞/取消点赞 修改数据库点赞表
+    userName=request.form.get('username')
+    id=request.form.get('id')
+    upValue=request.form.get('upvalue')
+    insertUp(userName,id,upValue)
     return {}
 
 
@@ -115,7 +119,7 @@ def like():
 def comment():
     print('---- Comment ----')
     # TODO 往评论表里增加数据
-    commentId = request.form.get(' ')
+    #commentId = 
     userName = request.form.get(' ')
     content = request.form.get(' ')
     result = insertComment(commentId,userName,content)#成功为真，失败为假

@@ -1,12 +1,25 @@
-def insertUser(userName,phone,email,password,uploadRight,vip,db):#向用户表中插入数据
+def insertUser(userName,phone,email,password,uploadRight,vip):#向用户表中插入数据
     cursor = db.cursor();
-    sql="INSERT INTO `test`.`user` (`userName`, `phone`, `email`, `password`, `uploadRight`, `vip`) \
-     VALUES ('%s', '%s', '%s', '%s','%s', '%s');" %\
-        (userName,phone,email,password,uploadRight,vip)
+   
     try:
+        sql="SELECT * FROM `test`.`user` \
+            WHERE `userName` = '%s' " % (userName)
         cursor.execute(sql)
-        db.commit()
-        print("insert successful:)")
+        result = cursor.fetchone()
+        if result==None:
+            sql="INSERT INTO `test`.`user` (`userName`, `phone`, `email`, `password`, `uploadRight`, `vip`) \
+                VALUES ('%s', '%s', '%s', '%s','%s', '%s');" %\
+                (userName,phone,email,password,uploadRight,vip)
+            cursor.execute(sql)
+            db.commit()
+            print("insert user")
+        else:
+            sql="UPDATE `test`.`user` SET `password` = '%s' , `uploadRight`= '%s', `vip`= '%s'\
+                WHERE (`userName` = '%s');"\
+                % (password,uploadRight,vip,userName)
+            cursor.execute(sql)
+            db.commit()
+            print("update user")
         return True
     except:
         db.rollback()
@@ -133,14 +146,28 @@ def insertResource(id,label,title,name,summary,type):#向资源表中插入数�
         print("insert failed:(")
         return False 
 
-def insertUp(userName,id,upValue):#向up表中插入数据
+def insertUp(userName,id,upValue):#向up表中插入数据，包含更新
     cursor = db.cursor();
-    sql="INSERT INTO `test`.`up` (`userName`, `id`, `upValue`) VALUES ('%s', '%s', '%s');" %\
-        (userName,id,upValue)
+   
     try:
+        sql="SELECT * FROM `test`.`up` WHERE `userName` = '%s' AND `id` = '%s' ;"\
+            % (userName,id)
         cursor.execute(sql)
-        db.commit()
-        print("insert successful:)")
+        result = cursor.fetchone()
+        if result==None:
+            sql="INSERT INTO `test`.`up` (`userName`, `id`, `upValue`) \
+                VALUES ('%s', '%s', '%s');" %\
+                (userName,id,upValue)
+            cursor.execute(sql)
+            db.commit()
+            print("insert up")
+        else:
+            sql="UPDATE `test`.`up` SET `upValue` = '%s' \
+                WHERE (`userName` = '%s') and (`id` = '%s');"\
+                % (upValue,userName,id)
+            cursor.execute(sql)
+            db.commit()
+            print("update up")
         return True 
     except:
         db.rollback()
