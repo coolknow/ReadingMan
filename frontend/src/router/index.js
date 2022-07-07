@@ -27,6 +27,9 @@ export const constantRoutes = [{
       path: '/my',
       component: () => import('@/views/my/my'),
     }, {
+      path: '/vip',
+      component: () => import('@/views/vip/vip'),
+    },{
       path: '/detail',
       component: () => import('@/views/detail/detail'),
     }, {
