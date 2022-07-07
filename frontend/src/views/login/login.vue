@@ -14,7 +14,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="hone" />
         </span>
         <el-input
           ref="username"
@@ -27,9 +27,39 @@
         />
       </el-form-item>
 
+      <el-form-item v-if="!isLogin" prop="ph">
+        <span class="svg-container">
+          <svg-icon icon-class="phone" />
+        </span>
+        <el-input
+          ref="ph"
+          v-model="loginForm.phone"
+          placeholder="电话"
+          name="ph"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item v-if="!isLogin" prop="em">
+        <span class="svg-container">
+          <svg-icon icon-class="email" />
+        </span>
+        <el-input
+          ref="em"
+          v-model="loginForm.email"
+          placeholder="Email"
+          name="em"
+          type="email"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
       <el-form-item prop="pwd">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <el-icon icon-class="hone" />
         </span>
         <el-input
           :key="passwordType"
@@ -50,7 +80,7 @@
 
       <el-form-item v-if="!isLogin" prop="morePwd">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="hone" />
         </span>
         <el-input
           :key="passwordType"
@@ -121,6 +151,8 @@ export default {
       imgCode: false,
       loginForm: {
         username: "",
+        ph:"",
+        em:"",
         pwd: "",
         morePwd: "",
       },
@@ -128,6 +160,12 @@ export default {
       loginRules: {
         username: [
           { required: true, trigger: "blur", message: "请输入您的用户名" },
+        ],
+        ph:[
+          {required:true,trigger:"blur",message:"请输入您的电话"},
+        ],
+        em:[
+          {required:true,trigger:"blur",message:"请输入您的Email"},
         ],
         pwd: [{ required: true, trigger: "blur", message: "请输入您的密码" }],
         morePwd: [
@@ -181,12 +219,10 @@ export default {
       }
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          const { username, pwd } = this.loginForm;
+          const { username,pwd } = this.loginForm;
           this.loading = true;
-          // this.$router.push("/");
-          // console.log("checkpoint1");
-          // return;
-          console.log("checkpoint2");
+          this.$router.push("/");
+          return;
           if (this.isLogin) {
             // 登录处理
             login({
@@ -194,17 +230,9 @@ export default {
               pwd,
             })
               .then((res) => {
-                console.log(res);
-                if(res.pass){
-                  this.loading = false;
-                  this.$store.commit("login", res);
-                  this.$router.push("/");
-                }
-                else{
-                  alert("用户名或密码错误\n请重新输入");
-                  this.loading = false;
-                  this.$router.push("/");
-                }
+                this.loading = false;
+                this.$store.commit("login", res.data);
+                this.$router.push("/");
               })
               .catch(() => {
                 this.loading = false;
@@ -213,6 +241,8 @@ export default {
             // 注册
             register({
               username,
+              ph,
+              em,
               pwd,
             })
               .then((res) => {
