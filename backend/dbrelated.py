@@ -131,11 +131,11 @@ def insertUpload(userName,id,date,db):#向上传表中插入数据
         print("insert failed:(")
         return False 
 
-def insertResource(id,label,title,name,summary,type,db):#向资源表中插入数据
+def insertResource(id,label,title,name,summary,type,location,db):#向资源表中插入数据
     cursor = db.cursor();
-    sql="INSERT INTO `test`.`resource` (`id`, `label`, `title`, `name`, `summary`, `type`) \
-            VALUES ('%s', '%s', '%s', '%s', '%s', '%s'); "%\
-            (id,label,title,name,summary,type)
+    sql="INSERT INTO `test`.`resource` (`id`, `label`, `title`, `name`, `summary`, `type`, `location`) \
+            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s'); "%\
+            (id,label,title,name,summary,type,location)
     try:
         cursor.execute(sql)
         db.commit()
