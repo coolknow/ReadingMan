@@ -80,6 +80,7 @@
 <script>
 import { mapState } from "vuex";
 import axios from "axios";
+import { upload } from "@/api/users";
 
 export default {
   name: "Index",
@@ -96,7 +97,7 @@ export default {
         bookName: [{ required: true, trigger: "blur", message: "请输入书名" }],
       },
       formLabelWidth: "120px",
-      fileURL:"",
+      fileURL:"not set",
     };
   },
   computed: {
@@ -112,7 +113,30 @@ export default {
       const res = await axios.post("http://127.0.0.1:5000/uploadfile", form);
       console.log(res);
       this.fileURL = res.fileURL;
-    }
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        const fileURL = this.fileURL;
+        const { title, bookName, tag, desc } = this.ruleForm;
+        const booktag = String(tag);
+        if (valid) {
+          alert('submit!');
+          upload({
+            fileURL,
+            title,
+            bookName,
+            booktag,
+            desc
+          }).then((res) => {
+            console.log(res);
+            this.$router.push("/");
+          });
+        } else {
+          console.log('error submit!!');
+          return false
+        }
+      })
+    },
   },
 };
 </script>

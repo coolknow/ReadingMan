@@ -19,3 +19,12 @@ export function register(data) {
     data
   })
 }
+
+// 上传文件
+export function upload(data) {
+  return request({
+    url: 'http://127.0.0.1:5000/uploadFilepathToDB',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
