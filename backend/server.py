@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, Response
+from flask import Flask, request, make_response
 from flask_cors import cross_origin
 from flask import jsonify
 from dbrelated import *
@@ -9,9 +9,9 @@ import uuid
 app = Flask(__name__)
 
 db = pymysql.connect(
-    host='localhost',#打开数据库链接
+    host='rm-2zekg94t7fq123ma8.mysql.rds.aliyuncs.com',#打开数据库链接
     port=3306,
-    user='root',
+    user='jason',
     password='Hu6012493!',
     database='test'
 )
@@ -71,10 +71,10 @@ def register():
     return response
 
 
-@app.route('/audio/pcm_mp3/<file_key>', methods=['GET', 'POST'])
+@app.route('/audio/pcm_mp3/<file_key>')
 def stream_mp3(file_key):
     def generate():
-        path = 'resource/Kalimba.mp3'
+        path = 'F:/826.mp3'
         with open(path, 'rb') as fmp3:
             data = fmp3.read(1024)
             while data:
