@@ -3,6 +3,8 @@ from flask_cors import cross_origin
 from flask import jsonify
 from dbrelated import *
 import pymysql
+import os
+import uuid
 
 app = Flask(__name__)
 
@@ -14,6 +16,7 @@ db = pymysql.connect(
     database='test'
 )
 
+UPLOAD_FOLDER = 'resource'
 
 @app.route('/login', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
@@ -78,16 +81,37 @@ def resource():
     return {}
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+def random_filename(filename):
+    ext = os.path.splitext(filename)[-1]
+    return uuid.uuid4().hex + ext
+
+
+@app.route('/uploadfile', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
-def upload():
+def uploadFile():
     # TODO 接受资源数据，并存储在数据库中
     #username=
     #id=
     #date=
-    insertUpload(username,id,date,db)
-    
-    return {}
+    # insertUpload(username,id,date,db)
+    print('---- Upload File ----')
+    try:
+        file = request.files.get('file')
+        print("receive file")
+        print(file.filename)
+        filename = random_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(os.path.join(app.root_path, filepath))
+        print("upload success")
+    except:
+        print("oh! soemthing wrong")
+    response = make_response(jsonify({'fileURL':filepath}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    print('---- ----- ----')
+    return response
 
 
 @app.route('/download', methods=['GET', 'POST'])
@@ -141,7 +165,7 @@ def like():
 def comment():
     print('---- Comment ----')
     # TODO 往评论表里增加数据
-    #commentId = 
+    #commentId =
     username = request.form.get(' ')
     content = request.form.get(' ')
     result = insertComment(commentId,username,content)#成功为真，失败为假

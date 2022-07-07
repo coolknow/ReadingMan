@@ -11,7 +11,9 @@
           <el-upload
             class="upload-demo"
             drag
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="action"
+            :show-file-list="false"
+            :http-request="uploadFile"
           >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">
@@ -77,6 +79,7 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
 
 export default {
   name: "Index",
@@ -93,6 +96,7 @@ export default {
         bookName: [{ required: true, trigger: "blur", message: "请输入书名" }],
       },
       formLabelWidth: "120px",
+      fileURL:"",
     };
   },
   computed: {
@@ -101,11 +105,18 @@ export default {
   mounted() {
     console.log("userinfo = ", this.userinfo);
   },
-  methods: {},
+  methods: {
+    async uploadFile(params){
+      let form = new FormData();
+      form.append("file", params.file);
+      const res = await axios.post("http://127.0.0.1:5000/uploadfile", form);
+      console.log(res);
+      this.fileURL = res.fileURL;
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "./create.scss";
 </style>
-
