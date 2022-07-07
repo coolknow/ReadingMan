@@ -22,6 +22,7 @@
             </div>
             <div class="menuBox">
               <div @click="goto('/my')" class="menuItem">听书记录</div>
+              <div @click="goto('/vip')" class="menuItem">VIP</div>
             </div>
           </el-popover>
           <div @click="handleLogin" class="out">
