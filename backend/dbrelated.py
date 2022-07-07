@@ -233,3 +233,39 @@ def queryAllResource(userName,db):
     except:
         print ("query failed:)")
         return False
+
+def queryResourceByLabel(label,db):#通过标签查找资源信息表，成功返回全部资源信息，失败返回False
+    cursor = db.cursor();
+    sql="SELECT * FROM `test`.`resource` \
+       WHERE `label` = '%s';" % (label)
+    try:
+        cursor.execute(sql)
+        result = cursor.fetall()
+        return result
+    except:
+        print ("query failed:)")
+        return False
+
+def queryResourceByTitle(title,db):#通过标题查找资源信息表，成功返回全部资源信息，失败返回False
+    cursor = db.cursor();
+    sql="SELECT * FROM `test`.`resource` \
+       WHERE `title` = '%s';" % (title)
+    try:
+        cursor.execute(sql)
+        result = cursor.fetall()
+        return result
+    except:
+        print ("query failed:)")
+        return False
+
+def queryResourceByName(name,db):#通过书名查找资源信息表，成功返回全部资源信息，失败返回False
+    cursor = db.cursor();
+    sql="SELECT * FROM `test`.`resource` \
+       WHERE `name` = '%s';" % (name)
+    try:
+        cursor.execute(sql)
+        result = cursor.fetall()
+        return result
+    except:
+        print ("query failed:)")
+        return False
