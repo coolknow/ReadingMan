@@ -46,7 +46,7 @@ def queryUser(userName,password,db):#查找用户信息表
 def insertComment(commentId,id,userName,content,db):#向评论表中插入数据
     cursor = db.cursor();
     sql="INSERT INTO `test`.`comment` (`commentId`, `id`, `userName`, `content`) \
-     VALUES ('%s', '%s', '%s');" %\
+     VALUES ('%s', '%s', '%s', '%s');" %\
         (commentId,id,userName,content)
     try:
         cursor.execute(sql)
@@ -146,9 +146,8 @@ def insertResource(id,label,title,name,summary,type,location,db):#向资源表�
         print("insert failed:(")
         return False 
 
-def insertUp(userName,id,upValue,db):#向up表中插入数据，包含更新
+def insertUp(userName,id,db):#向up表中插入数据，包含更新
     cursor = db.cursor();
-   
     try:
         sql="SELECT * FROM `test`.`up` WHERE `userName` = '%s' AND `id` = '%s' ;"\
             % (userName,id)
@@ -157,14 +156,15 @@ def insertUp(userName,id,upValue,db):#向up表中插入数据，包含更新
         if result==None:
             sql="INSERT INTO `test`.`up` (`userName`, `id`, `upValue`) \
                 VALUES ('%s', '%s', '%s');" %\
-                (userName,id,upValue)
+                (userName,id,'1')
             cursor.execute(sql)
             db.commit()
             print("insert up")
         else:
+            value=1-int(result[2])
             sql="UPDATE `test`.`up` SET `upValue` = '%s' \
                 WHERE (`userName` = '%s') and (`id` = '%s');"\
-                % (upValue,userName,id)
+                % (value,userName,id)
             cursor.execute(sql)
             db.commit()
             print("update up")
