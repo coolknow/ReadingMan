@@ -6,7 +6,9 @@
           style="width: 100px; height: 100px"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         ></el-avatar>
-        <div class="username">非典型TA</div>
+        <div class="username">非典型TA<el-button type="vipbutton" circle="boolean" @click="open">VIP</el-button>
+        </div>
+
         <div class="detailBox">
           <div class="detailItem">
             <div class="detailItemTop">16</div>
@@ -100,6 +102,7 @@ export default {
   name: "Index",
   data() {
     return {
+      vipbutton: '',
       typeList: ["书架", "书单", "关注", "粉丝"],
       currentTypeIndex: 0,
       listData: [0, 1, 2, 3],
@@ -112,6 +115,17 @@ export default {
     console.log("userinfo = ", this.userinfo);
   },
   methods: {
+	  open() {
+	          this.$alert('您已成功注册vip~', '欢迎小可爱！', {
+	            confirmButtonText: '确定',
+	            callback: action => {
+	              this.$message({
+	                type: 'info',
+	                message: `action: ${ action }`
+	              });
+	            }
+	          });
+	        },
     // 类型点击
     handleTypeClick(item, index) {
       this.current = 1;
@@ -124,4 +138,3 @@ export default {
 <style lang="scss" scoped>
 @import "./my.scss";
 </style>
-
