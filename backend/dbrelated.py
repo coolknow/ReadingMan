@@ -214,3 +214,22 @@ def queryRight(userName,db):#返回用户的上传和vip权限（先上传再vip
     except:
         print ("query failed:)")
         return False
+    
+def queryAllResource(userName,db):
+    cursor = db.cursor();
+    try:
+        sql="SELECT * FROM `test`.`upload` \
+       WHERE `userName` = '%s' " % (userName)
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        i=0
+        list=[]
+        try:
+            while result[i][1]:
+                list.append(queryResource(result[i][1]))
+                i=i+1
+        except:
+            return(list)
+    except:
+        print ("query failed:)")
+        return False
