@@ -26,12 +26,14 @@
       style="margin-left: 30px"
       controls
       autoplay
+      controlsList="nodownload"
     >
       <source
         :src="playList.length && playList[currentIndex].url"
         type="audio/mp3"
       />
     </audio>
+    <a :href="playList[currentIndex].url" download >下载</a>
     <i @click="next" class="el-icon-d-arrow-right icon"></i>
     <!-- 播放列表 -->
     <div class="menuBox">
@@ -163,4 +165,3 @@ export default {
 <style scoped lang="scss">
 @import "./player.scss";
 </style>
-

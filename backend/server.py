@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, Response
 from flask_cors import cross_origin
 from flask import jsonify
 from dbrelated import *
@@ -71,7 +71,20 @@ def register():
     return response
 
 
-@app.route('/resource', methods=['GET', 'POST'])
+@app.route('/audio/pcm_mp3/<file_key>', methods=['GET', 'POST'])
+def stream_mp3(file_key):
+    def generate():
+        path = 'resource/Kalimba.mp3'
+        with open(path, 'rb') as fmp3:
+            data = fmp3.read(1024)
+            while data:
+                yield data
+                data = fmp3.read(1024)
+
+    return Response(generate(), mimetype="audio/mpeg3")
+
+
+@app.route('/resource/', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def resource():
     # TODO 判断用户请求资源的种类，并返回相应的资源数据

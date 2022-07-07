@@ -102,7 +102,9 @@ export default {
     handlePlay(name) {
       let deepPlayList = [...this.playList];
       deepPlayList.push({
-        url: '/t.mp3',
+        // url:'/t.mp3',
+        // url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3?_=1',
+        url:'http://127.0.0.1:5000/audio/pcm_mp3/123.mp3',
         name,
       });
       this.$store.commit("addPlayeList", deepPlayList);
@@ -114,4 +116,3 @@ export default {
 <style lang="scss" scoped>
 @import "./index.scss";
 </style>
-
