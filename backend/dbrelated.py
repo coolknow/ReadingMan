@@ -43,11 +43,11 @@ def queryUser(userName,password,db):#查找用户信息表
         print ("query failed:)")
         return False
 
-def insertComment(commentId,userName,content,db):#向评论表中插入数据
+def insertComment(commentId,id,userName,content,db):#向评论表中插入数据
     cursor = db.cursor();
-    sql="INSERT INTO `test`.`comment` (`commentId`, `userName`, `content`) \
+    sql="INSERT INTO `test`.`comment` (`commentId`, `id`, `userName`, `content`) \
      VALUES ('%s', '%s', '%s');" %\
-        (commentId,userName,content)
+        (commentId,id,userName,content)
     try:
         cursor.execute(sql)
         db.commit()
