@@ -8,7 +8,6 @@
             友趣读书
           </h3>
           <div @click="goto('/')" class="navItem">听书馆</div>
-          <div @click="goto('/')" class="navItem">我的书架</div>
           <div @click="goto('/create')" class="navItem">创作平台</div>
            <div @click="goto('/com')" class="navItem">评书社区</div>
         </div>
