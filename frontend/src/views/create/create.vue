@@ -11,15 +11,28 @@
           <el-upload
             class="upload-demo"
             drag
-            action="action"
-            :show-file-list="false"
-            :http-request="uploadFile"
+            action="https://jsonplaceholder.typicode.com/posts/"
           >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div class="el-upload__tip" slot="tip">音频格式：mp3</div>
+          </el-upload>
+        </div>
+      </el-card>
+      <el-card style="margin-bottom: 20px;">
+        <div class="uploadBox">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              将文件拖到此处，或<em>点击上传</em>
+            </div>
+            <div class="el-upload__tip" slot="tip">文件可识别类型：思维导图.jpg/.png;文字稿.txt</div>
           </el-upload>
         </div>
       </el-card>
@@ -79,8 +92,6 @@
 
 <script>
 import { mapState } from "vuex";
-import axios from "axios";
-import { upload } from "@/api/users";
 
 export default {
   name: "Index",
@@ -97,7 +108,6 @@ export default {
         bookName: [{ required: true, trigger: "blur", message: "请输入书名" }],
       },
       formLabelWidth: "120px",
-      fileURL:"not set",
     };
   },
   computed: {
