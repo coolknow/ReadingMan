@@ -33,7 +33,7 @@
         type="audio/mp3"
       />
     </audio>
-    <a :href="playList[currentIndex].url" download >下载</a>
+    <a :href="playList[currentIndex].url" download ><el-button @click="downloadinform">下载</el-button></a>
     <i @click="next" class="el-icon-d-arrow-right icon"></i>
     <!-- 播放列表 -->
     <div class="menuBox">
@@ -70,6 +70,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { downloadnoti } from "@/api/users";
 
 export default {
   name: "Index",
@@ -158,6 +159,29 @@ export default {
       deepList.splice(index, 1);
       this.$store.commit("deletePlayerList", { index, list: deepList });
     },
+    downloadinform(){
+      if (this.userinfo){
+        const username = this.userinfo.username;
+        alert(this.playList[this.currentIndex].url);
+        downloadnoti({
+          username
+        }).then((res) => {
+          console.log(res);
+          if(res.result){
+            this.$router.push(url);
+          }
+          else{
+            alert("资格不符合");
+            this.$router.push("/");
+          }
+        });
+        this.$router.push("/");
+      }
+      else{
+        alert("请先登陆");
+        this.$router.push("/");
+      }
+    }
   },
 };
 </script>

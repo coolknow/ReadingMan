@@ -97,6 +97,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { vip } from "@/api/users";
 
 export default {
   name: "Index",
@@ -116,16 +117,22 @@ export default {
   },
   methods: {
 	  open() {
-	          this.$alert('您已成功注册vip~', '欢迎小可爱！', {
-	            confirmButtonText: '确定',
-	            callback: action => {
-	              this.$message({
-	                type: 'info',
-	                message: `action: ${ action }`
-	              });
-	            }
-	          });
-	        },
+      const username = this.userinfo.username;
+      vip({
+        username
+      }).then((res) => {
+          console.log(res);
+      });
+      this.$alert('您已成功注册vip~', '欢迎小可爱！', {
+        confirmButtonText: '确定',
+        callback: action => {
+          this.$message({
+            type: 'info',
+            message: `action: ${ action }`
+          });
+        }
+      });
+    },
     // 类型点击
     handleTypeClick(item, index) {
       this.current = 1;

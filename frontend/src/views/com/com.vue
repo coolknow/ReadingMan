@@ -69,7 +69,9 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import t from '../../assets/banner.jpg'
+import { comment } from "@/api/users";
 import moment from "moment";
 moment.locale("zh-cn");
 export default {
@@ -102,7 +104,12 @@ export default {
       formLabelWidth: "120px",
     };
   },
-  mounted() {},
+  computed: {
+    ...mapState(["userinfo"]),
+  },
+  mounted() {
+    console.log("userinfo = ", this.userinfo);
+  },
   methods: {
     // 图片上传双向绑定
     handleImgChange(file, fileList) {
@@ -132,8 +139,19 @@ export default {
       this.fileList = [];
     },
     submitForm(formName) {
+      const remark = this.ruleForm.remark;
+      const username = this.userinfo.username;
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          // 上传评论
+          comment({
+            remark,
+            username
+          }).then((res) => {
+            console.log(res);
+            this.$router.push("/");
+          });
+          //
           if (this.fileList[0]) {
             let file = this.fileList[0].raw;
             this.getBase64(file).then((res) => {
@@ -163,4 +181,3 @@ export default {
 <style lang="scss" scoped>
 @import "./com.scss";
 </style>
-

@@ -33,7 +33,7 @@
         </span>
         <el-input
           ref="ph"
-          v-model="loginForm.phone"
+          v-model="loginForm.ph"
           placeholder="电话"
           name="ph"
           type="text"
@@ -48,7 +48,7 @@
         </span>
         <el-input
           ref="em"
-          v-model="loginForm.email"
+          v-model="loginForm.em"
           placeholder="Email"
           name="em"
           type="email"
@@ -221,8 +221,8 @@ export default {
         if (valid) {
           const { username,pwd } = this.loginForm;
           this.loading = true;
-          this.$router.push("/");
-          return;
+          // this.$router.push("/");
+          // return;
           if (this.isLogin) {
             // 登录处理
             login({
@@ -230,15 +230,24 @@ export default {
               pwd,
             })
               .then((res) => {
-                this.loading = false;
-                this.$store.commit("login", res.data);
-                this.$router.push("/");
+                console.log(res);
+                if(res.pass){
+                  this.loading = false;
+                  this.$store.commit("login", res);
+                  this.$router.push("/");
+                }
+                else{
+                  alert("用户名或密码错误\n请重新输入");
+                  this.loading = false;
+                  this.$router.push("/");
+                }
               })
               .catch(() => {
                 this.loading = false;
               });
           } else {
             // 注册
+            const { username,ph,em,pwd } = this.loginForm;
             register({
               username,
               ph,
@@ -248,7 +257,13 @@ export default {
               .then((res) => {
                 this.loading = false;
                 this.setIsLogin();
-                this.$message.success("注册成功，请立即登录！");
+                if(res.pass){
+                  this.$message.success("注册成功，请立即登录！");
+                }
+                else{
+                  alert("注册失败，请重新注册。。");
+                  this.$router.push("/");
+                }
               })
               .catch(() => {
                 this.loading = false;

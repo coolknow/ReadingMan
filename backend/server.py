@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, Response
 from flask_cors import cross_origin
 from flask import jsonify
 from dbrelated import *
@@ -9,9 +9,9 @@ import uuid
 app = Flask(__name__)
 
 db = pymysql.connect(
-    host='rm-2zekg94t7fq123ma8.mysql.rds.aliyuncs.com',#打开数据库链接
+    host='localhost',#打开数据库链接
     port=3306,
-    user='jason',
+    user='root',
     password='Hu6012493!',
     database='test'
 )
@@ -33,7 +33,7 @@ def login():
     # cursor.execute(sql)
     # data = cursor.fetchone()
     response = make_response(jsonify({'pass':result,'username':username}))
-    response.headers["Access-Control-Allow-Origin"] = 'http://47.95.9.130:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
     response.headers["Access-Control-Allow-Credentials"] = 'true'
@@ -48,22 +48,20 @@ def register():
     print('---- Register ----')
     # TODO 审核用户信息，并返回注册结果，如果不成功则提示重来，如果成功则跳转主页
     username = request.form.get('username')
+    phone = request.form.get('ph')
+    email = request.form.get('em')
     password = request.form.get('pwd')
-    # phone = request.form.get('phone')
-    # email = request.form.get('email')
     print("username: " + str(username))
     print("password: " + str(password))
-    # print("phone: " + str(phone))
-    # print("email: " + str(email))
-    email = 'thisman@test.com'
-    phone = '19216825525'
+    print("phone: " + str(phone))
+    print("email: " + str(email))
     uploadRight = 0
     vip = 0
     # 验证 用户名 / 邮箱 是否都已经注册过
     # 注册新的用户
     result = insertUser(username,phone,email,password,uploadRight,vip,db)
     response = make_response(jsonify({'pass':result,'username':username}))
-    response.headers["Access-Control-Allow-Origin"] = 'http://47.95.9.130:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
     response.headers["Access-Control-Allow-Credentials"] = 'true'
@@ -74,7 +72,7 @@ def register():
 @app.route('/audio/pcm_mp3/<file_key>')
 def stream_mp3(file_key):
     def generate():
-        path = 'F:/826.mp3'
+        path = 'resource/Kalimba.mp3'
         with open(path, 'rb') as fmp3:
             data = fmp3.read(1024)
             while data:
@@ -119,7 +117,7 @@ def uploadFile():
     except:
         print("oh! soemthing wrong")
     response = make_response(jsonify({'fileURL':filepath}))
-    response.headers["Access-Control-Allow-Origin"] = 'http://47.95.9.130:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
     response.headers["Access-Control-Allow-Credentials"] = 'true'
@@ -131,18 +129,22 @@ def uploadFile():
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def uploadFilepathToDB():
     print('---- Upload Filepath to DB ----')
+    username = request.form.get('username')
     fileURL = request.form.get('fileURL')
     title = request.form.get('title')
     bookName = request.form.get('bookName')
     booktag = request.form.get('booktag')
     desc = request.form.get('desc')
-    print(fileURL)
+    print(username)
+    print(fileURL[0:15])
     print(title)
     print(bookName)
     print(booktag)
     print(desc)
+    date = "2022-07-08"
+    insertUpload(username,fileURL[0:15],date,db)
     response = make_response(jsonify({'result':True}))
-    response.headers["Access-Control-Allow-Origin"] = 'http://47.95.9.130:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
     response.headers["Access-Control-Allow-Credentials"] = 'true'
@@ -153,36 +155,60 @@ def uploadFilepathToDB():
 @app.route('/download', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def download():
+    print('---- Download ----')
     # TODO 获取资源数据请求，并从数据库中调取相应的数据资源返回给前端
-    #username=
-    #id=
-    #date=
+    username = request.form.get('username')
+    id = "resource/2a045e"
+    date = "2022-07-08"
     insertDownload(username,id,date,db)#会自动加下载数
-    result=queryResource(id,db)#0id,1label,2title,3name,4summary,5type
-    return {}
+    # result = queryResource(id,db)#0id,1label,2title,3name,4summary,5type
+    response = make_response(jsonify({'result':True}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    print('---- ----- ----')
+    return response
 
 
 @app.route('/right', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def right():
+    print('---- Get Right ----')
     # TODO 在用户申请上传资格的时候检查是否符合条件（互动指数+vip）
-    #username=
-    result=queryRight(username,db)#0上传资格1vip
-    return {}
+    username = request.form.get('username')
+    print(username)
+    result = queryRight(username,db)#0上传资格1vip
+    ans = False
+    if(result[0] == 1 and result[1] == 1):
+        ans = True
+    else:
+        ans = False
+    response = make_response(jsonify({'result':ans}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    print('---- ----- ----')
+    return response
 
 
 @app.route('/vip', methods=['GET', 'POST'])
 # @cross_origin(origins="http://127.0.0.1:3000") # 设置可以访问的前端端口
 def vip():
+    print('---- Vip ----')
     # TODO 模拟充值vip，修改数据库，并返回结果到前端
-    #username=
-    #phone=
-    #password=
-    #uploadRight=
+    username = request.form.get('username')
+    print(username)
     vip='1'
-    insertUser(username,phone,email,password,uploadRight,vip,db)#已存在用户会更新
-
-    return {}
+    updatevip(username,vip,db)
+    response = make_response(jsonify({'result':True}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
+    response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
+    response.headers["Access-Control-Allow-Credentials"] = 'true'
+    print('---- ----- ----')
+    return response
 
 
 @app.route('/like', methods=['GET', 'POST'])
@@ -201,12 +227,17 @@ def like():
 def comment():
     print('---- Comment ----')
     # TODO 往评论表里增加数据
-    #commentId =
-    username = request.form.get(' ')
-    content = request.form.get(' ')
-    result = insertComment(commentId,username,content)#成功为真，失败为假
+    username = request.form.get('username')
+    content = request.form.get('remark')
+    print(username)
+    print(content)
+    id = "rand"
+    result = insertComment(id,username,content,db)#成功为真，失败为假
+    if(result):
+        updateuploadRight(username,"1",db)
     response = make_response(jsonify({'token':result}))
-    response.headers["Access-Control-Allow-Origin"] = 'http://47.95.9.130:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
+    # response = make_response(jsonify({}))
+    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:9528'	# 允许使用响应数据的域。也可以利用请求header中的host字段做一个过滤器。
     response.headers["Access-Control-Allow-Methods"] = 'POST,GET'	# 允许的请求方法
     response.headers["Access-Control-Allow-Headers"] = 'x-requested-with,content-type'	# 允许的请求header
     response.headers["Access-Control-Allow-Credentials"] = 'true'

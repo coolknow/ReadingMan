@@ -111,17 +111,20 @@ export default {
       let form = new FormData();
       form.append("file", params.file);
       const res = await axios.post("http://127.0.0.1:5000/uploadfile", form);
-      console.log(res);
-      this.fileURL = res.fileURL;
+      console.log("fileURL");
+      console.log(res.data.fileURL);
+      this.fileURL = res.data.fileURL;
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         const fileURL = this.fileURL;
+        const username = this.userinfo.username;
         const { title, bookName, tag, desc } = this.ruleForm;
         const booktag = String(tag);
         if (valid) {
           alert('submit!');
           upload({
+            username,
             fileURL,
             title,
             bookName,
